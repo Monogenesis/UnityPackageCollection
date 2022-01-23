@@ -23,7 +23,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         [SerializeField] private List<UIEventHandle<ChangeEvent<string>>> textFieldInteractions =
             new List<UIEventHandle<ChangeEvent<string>>>();
 
-        [SerializeField] private List<UIEventHandle<ChangeEvent<float>>> floatSliderInteractions =
+        [SerializeField] private List<UIEventHandle<ChangeEvent<float>>> sliderInteractions =
             new List<UIEventHandle<ChangeEvent<float>>>();
 
         [SerializeField] private List<UIEventHandle<ChangeEvent<int>>> intSliderInteractions =
@@ -52,7 +52,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         public List<UIEventHandle<ChangeEvent<bool>>> ToggleInteractions => toggleInteractions;
         public List<UIEventHandle<ChangeEvent<string>>> DropdownInteractions => dropdownInteractions;
         public List<UIEventHandle<ChangeEvent<string>>> TextFieldInteractions => textFieldInteractions;
-        public List<UIEventHandle<ChangeEvent<float>>> FloatSliderInteractions => floatSliderInteractions;
+        public List<UIEventHandle<ChangeEvent<float>>> SliderInteractions => sliderInteractions;
         public List<UIEventHandle<ChangeEvent<int>>> INTSliderInteractions => intSliderInteractions;
         public List<UIEventHandle<ChangeEvent<Vector2>>> MinMaxSliderInteractions => minMaxSliderInteractions;
         public List<UIEventHandle<ChangeEvent<bool>>> RadioButtonInteractions => radioButtonInteractions;
@@ -98,8 +98,8 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                 textFieldInteractions =
                     LoadElements<TextField, ChangeEvent<string>, string>(_menuRoot, textFieldInteractions);
 
-                floatSliderInteractions =
-                    LoadElements<Slider, ChangeEvent<float>, float>(_menuRoot, floatSliderInteractions);
+                sliderInteractions =
+                    LoadElements<Slider, ChangeEvent<float>, float>(_menuRoot, sliderInteractions);
 
                 intSliderInteractions =
                     LoadElements<SliderInt, ChangeEvent<int>, int>(_menuRoot, intSliderInteractions);

@@ -16,7 +16,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
             "buttonInteractions",
             "dropdownInteractions",
             "textFieldInteractions",
-            "floatSliderInteractions",
+            "sliderInteractions",
             "intSliderInteractions",
             "minMaxSliderInteractions",
             "radioButtonInteractions",
@@ -52,7 +52,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
                 myScript.TextFieldInteractions, ListNames[2]);
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<float>>, ChangeEvent<float>>(
-                myScript.FloatSliderInteractions, ListNames[3]);
+                myScript.SliderInteractions, ListNames[3]);
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<int>>, ChangeEvent<int>>(
                 myScript.INTSliderInteractions, ListNames[4]);
