@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EditorAugmentation.CustomAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
@@ -217,9 +218,9 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         [Serializable]
         public class UIEventHandle<T>
         {
-            [SerializeField] private string name;
+            [SerializeField, ReadOnly] private string name;
 
-            [SerializeField] private string eventParameterType;
+            [SerializeField, ReadOnly] private string eventParameterType;
 
             [SerializeField] private UnityEvent<T> interactionEvent;
 

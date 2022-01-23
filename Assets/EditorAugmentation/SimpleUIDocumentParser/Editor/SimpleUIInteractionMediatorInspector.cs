@@ -145,17 +145,8 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
         {
             if (property.arraySize > 0)
             {
-                if (EditorGUILayout.Foldout(true, property.name, true))
-                {
-                    EditorGUI.indentLevel++;
-                    EditorGUI.BeginDisabledGroup(true);
-                    EditorGUILayout.PropertyField(property.GetArrayElementAtIndex(0).FindPropertyRelative("name"), true);
-                    EditorGUILayout.PropertyField(property.GetArrayElementAtIndex(0).FindPropertyRelative("eventParameterType"), true);
-                    EditorGUI.EndDisabledGroup();
-                    EditorGUILayout.PropertyField(property.GetArrayElementAtIndex(0).FindPropertyRelative("interactionEvent"), true);
-                    EditorGUI.indentLevel--;
-                }             
-
+                bool nameEmpty = property.GetArrayElementAtIndex(0).FindPropertyRelative("name").stringValue == "";
+                EditorGUILayout.PropertyField(property, !nameEmpty);
             }
         }
     }
