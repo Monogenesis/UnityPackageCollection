@@ -75,7 +75,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         public HashSet<string> EmptyNameReferenceTypeNames => _emptyNameReferenceTypeNames;
 
         public Dictionary<string, UIEventHandle<object>> listOfEvents = new();
-    
+
 
         private void OnValidate()
         {
@@ -119,15 +119,70 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                 foldoutInteractions = LoadElements<Foldout, ChangeEvent<bool>, bool>(_menuRoot, foldoutInteractions);
             }
         }
-    
+
         public void OnRefreshButtonPressed()
         {
             HookUnityEvents();
         }
 
+
         private void Awake()
         {
             HookUnityEvents();
+
+            toggleInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<Toggle>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            dropdownInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<DropdownField>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            textFieldInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<TextField>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            sliderInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<Slider>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            intSliderInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<SliderInt>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            minMaxSliderInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<MinMaxSlider>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            radioButtonInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<RadioButton>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            radioButtonGroupInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<RadioButtonGroup>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
+
+            foldoutInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<Foldout>(eventHandle.Name).ForEach(ele =>
+                    ele.RegisterValueChangedCallback(eventHandle.InteractionEvent.Invoke));
+            });
         }
 
         private List<UIEventHandle<TEventReturnType>> LoadElements<TElementType, TEventReturnType, TEventType>(
@@ -146,16 +201,18 @@ namespace EditorAugmentation.SimpleUIDocumentParser
             {
                 _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
             }
+
             if (elementList.Any(x => x.name == ""))
             {
                 _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
             }
+
             for (int i = 0; i < elementList.Count; i++)
             {
                 element = elementList[i];
                 counter = 0;
                 emptyName = element.name == "";
-                
+
                 for (int j = 0; j < interactionList.Count; j++)
                 {
                     if (element.name == interactionList[j].Name)
@@ -174,11 +231,6 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                         var result = interactionList.First(ele => ele.Name == element.name);
                         result.InteractionEvent.Invoke((TEventReturnType) evt);
                     });
-                }else if (counter > 1)
-                {
-                }
-                if (emptyName)
-                {
                 }
             }
 
@@ -202,90 +254,72 @@ namespace EditorAugmentation.SimpleUIDocumentParser
             }
 
             return filteredList;
-            // elementList.ForEach(
-            //     type =>
-            //     {
-            //         bool hasDuplicate = elementList.GroupBy(x => x.name).Any(g => g.Count() > 1);
-            //         hasDuplicate |= interactionList.GroupBy(x => x.Name).Any(g => g.Count() > 1);
-            //         if (hasDuplicate)
-            //         {
-            //             _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
-            //         }
-            //
-            //         // bool nameEmpty = elementList.Any(x => x.name == "");
-            //         bool nameEmpty = type.name == "";
-            //         if (nameEmpty)
-            //         {
-            //             _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
-            //         }
-            //
-            //         if (!hasDuplicate && !nameEmpty)
-            //         {
-            //             UIEventHandle<TEventReturnType> handle = new UIEventHandle<TEventReturnType>(type.name,
-            //                 $"ChangeEvent<{typeof(TEventReturnType).GetGenericArguments()[0].Name}>");
-            //             interactionList.Add(handle);
-            //             type.RegisterValueChangedCallback(evt =>
-            //             {
-            //                 var result = interactionList.First(ele => ele.Name == type.name);
-            //                 result.InteractionEvent.Invoke((TEventReturnType) evt);
-            //             });
-            //         }
-            //     });
-
-            // List<UIEventHandle<TEventReturnType>> tempList = new();
-            // bool oldInteractionFound;
-            // for (int i = 0; i < interactionList.Count; i++)
-            // {
-            //     oldInteractionFound = false;
-            //     for (int j = 0; j < elementList.Count; j++)
-            //     {
-            //         if (elementList[i].name == interactionList[j].Name)
-            //         {
-            //             oldInteractionFound = true;
-            //         }
-            //     }
-            //     
-            // }
-            // var filteredList = elementList.RemoveAll(ele => interactionList.All(handle => handle.Name != ele.name));
-
-            return interactionList;
-            // return FilterObsoleteElements<TElementType, TEventReturnType>(interactionList,
-            //     new List<VisualElement>(elementList.ToList()));
         }
 
         private List<UIEventHandle<object>> LoadElements<TElementType>(VisualElement root,
             List<UIEventHandle<object>> interactionList) where TElementType : Button
         {
+            List<UIEventHandle<object>> filteredList = new();
+            TElementType element;
+            int counter = 0;
+            bool emptyName;
+
             var elementList = root.Query<TElementType>().ToList();
-            elementList.ForEach(
-                type =>
+            if (elementList.GroupBy(x => x.name).Any(g => g.Count() > 1))
+            {
+                _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            }
+
+            if (elementList.Any(x => x.name == ""))
+            {
+                _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            }
+
+            for (int i = 0; i < elementList.Count; i++)
+            {
+                element = elementList[i];
+                counter = 0;
+                emptyName = element.name == "";
+
+                for (int j = 0; j < interactionList.Count; j++)
                 {
-                    bool hasDuplicate = elementList.GroupBy(x => x.name).Any(g => g.Count() > 1);
-                    hasDuplicate |= interactionList.GroupBy(x => x.Name).Any(g => g.Count() > 1);
-                    if (hasDuplicate)
+                    if (element.name == interactionList[j].Name)
                     {
-                        _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
+                        counter++;
                     }
+                }
 
-                    bool nameEmpty = elementList.Any(x => x.name == "");
-                    if (nameEmpty)
+                if (counter == 0 && !emptyName)
+                {
+                    UIEventHandle<object> handle = new UIEventHandle<object>(element.name, "None");
+                    interactionList.Add(handle);
+                    element.clicked += () =>
                     {
-                        _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
-                    }
+                        interactionList.First(ele => ele.Name == element.name).InteractionEvent.Invoke(null);
+                    };
+                }
+            }
 
-                    if (!hasDuplicate || nameEmpty)
+            for (int i = 0; i < interactionList.Count; i++)
+            {
+                var interaction = interactionList[i];
+                counter = 0;
+
+                for (int j = 0; j < elementList.Count; j++)
+                {
+                    if (elementList[j].name != interactionList[i].Name)
                     {
-                        UIEventHandle<object> handle = new UIEventHandle<object>(type.name, "None");
-                        interactionList.Add(handle);
-                        type.clicked += () =>
-                        {
-                            interactionList.First(ele => ele.Name == type.name).InteractionEvent.Invoke(null);
-                        };
+                        counter++;
                     }
-                });
+                }
 
-            return FilterObsoleteElements<Button, object>(interactionList,
-                new List<VisualElement>(elementList.ToList()));
+                if (counter < elementList.Count)
+                {
+                    filteredList.Add(interaction);
+                }
+            }
+
+            return filteredList;
         }
 
 
@@ -309,6 +343,14 @@ namespace EditorAugmentation.SimpleUIDocumentParser
 
             [SerializeField] private UnityEvent<T> interactionEvent;
 
+            public enum CallbackType
+            {
+                ValueChangedEvent,
+                PointerMove,
+                PointerUp,
+                PointerDown,
+            }
+
             public string Name
             {
                 get => name;
@@ -320,7 +362,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                 get => interactionEvent;
                 set => interactionEvent = value;
             }
-        
+
 
             public UIEventHandle(string name, string eventTypeName)
             {

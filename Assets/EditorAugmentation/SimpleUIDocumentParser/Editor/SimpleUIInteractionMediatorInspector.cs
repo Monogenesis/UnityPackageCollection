@@ -45,7 +45,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<object>, object>(myScript.ButtonInteractions, ListNames[0]);
 
-            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>, ChangeEvent<string>>(
+       CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>, ChangeEvent<string>>(
                 myScript.DropdownInteractions, ListNames[1]);
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>, ChangeEvent<string>>(
