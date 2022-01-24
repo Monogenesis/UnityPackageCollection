@@ -253,6 +253,11 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                 }
             }
 
+            if (filteredList.Count > 0)
+            {
+                filteredList = filteredList.GroupBy(x => x.Name).Select(y => y.FirstOrDefault()).ToList();
+            }
+
             return filteredList;
         }
 
@@ -319,19 +324,12 @@ namespace EditorAugmentation.SimpleUIDocumentParser
                 }
             }
 
+            if (filteredList.Count > 0)
+            {
+                filteredList = filteredList.GroupBy(x => x.Name).Select(y => y.FirstOrDefault()).ToList();
+            }
+
             return filteredList;
-        }
-
-
-        private List<UIEventHandle<TEventType>> FilterObsoleteElements<TElementType, TEventType>(
-            List<UIEventHandle<TEventType>> list,
-            List<VisualElement> elements)
-        {
-            // Remove old elements
-            var uiEventHandles = list.GroupBy(handle => handle.Name).Select(handles => handles.First()).ToList();
-            uiEventHandles.RemoveAll(handle => elements.ToList().All(type => type.name != handle.Name));
-
-            return uiEventHandles.ToList();
         }
 
         [Serializable]
@@ -342,14 +340,6 @@ namespace EditorAugmentation.SimpleUIDocumentParser
             [SerializeField, ReadOnly] private string eventParameterType;
 
             [SerializeField] private UnityEvent<T> interactionEvent;
-
-            public enum CallbackType
-            {
-                ValueChangedEvent,
-                PointerMove,
-                PointerUp,
-                PointerDown,
-            }
 
             public string Name
             {
