@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using EditorAugmentation.CustomAttributes;
 using UnityEngine;
 using UnityEngine.Events;
@@ -135,37 +136,121 @@ namespace EditorAugmentation.SimpleUIDocumentParser
             where TElementType : VisualElement, INotifyValueChanged<TEventType>
             where TEventReturnType : ChangeEvent<TEventType>
         {
+            List<UIEventHandle<TEventReturnType>> filteredList = new();
+            TElementType element;
+            int counter = 0;
+            bool emptyName;
+
             var elementList = root.Query<TElementType>().ToList();
-            elementList.ForEach(
-                type =>
+            if (elementList.GroupBy(x => x.name).Any(g => g.Count() > 1))
+            {
+                _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            }
+            if (elementList.Any(x => x.name == ""))
+            {
+                _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            }
+            for (int i = 0; i < elementList.Count; i++)
+            {
+                element = elementList[i];
+                counter = 0;
+                emptyName = element.name == "";
+                
+                for (int j = 0; j < interactionList.Count; j++)
                 {
-                    bool hasDuplicate = elementList.GroupBy(x => x.name).Any(g => g.Count() > 1);
-                    if (hasDuplicate)
+                    if (element.name == interactionList[j].Name)
                     {
-                        _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
+                        counter++;
                     }
+                }
 
-                    bool nameEmpty = elementList.Any(x => x.name == "");
-                    if (nameEmpty)
+                if (counter == 0 && !emptyName)
+                {
+                    UIEventHandle<TEventReturnType> handle = new UIEventHandle<TEventReturnType>(element.name,
+                        $"ChangeEvent<{typeof(TEventReturnType).GetGenericArguments()[0].Name}>");
+                    interactionList.Add(handle);
+                    element.RegisterValueChangedCallback(evt =>
                     {
-                        _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
-                    }
+                        var result = interactionList.First(ele => ele.Name == element.name);
+                        result.InteractionEvent.Invoke((TEventReturnType) evt);
+                    });
+                }else if (counter > 1)
+                {
+                }
+                if (emptyName)
+                {
+                }
+            }
 
-                    if (!hasDuplicate || nameEmpty)
+            for (int i = 0; i < interactionList.Count; i++)
+            {
+                var interaction = interactionList[i];
+                counter = 0;
+
+                for (int j = 0; j < elementList.Count; j++)
+                {
+                    if (elementList[j].name != interactionList[i].Name)
                     {
-                        UIEventHandle<TEventReturnType> handle = new UIEventHandle<TEventReturnType>(type.name,
-                            $"ChangeEvent<{typeof(TEventReturnType).GetGenericArguments()[0].Name}>");
-                        interactionList.Add(handle);
-                        type.RegisterValueChangedCallback(evt =>
-                        {
-                            var result = interactionList.First(ele => ele.Name == type.name);
-                            result.InteractionEvent.Invoke((TEventReturnType) evt);
-                        });
+                        counter++;
                     }
-                });
+                }
 
-            return FilterObsoleteElements<TElementType, TEventReturnType>(interactionList,
-                new List<VisualElement>(elementList.ToList()));
+                if (counter < elementList.Count)
+                {
+                    filteredList.Add(interaction);
+                }
+            }
+
+            return filteredList;
+            // elementList.ForEach(
+            //     type =>
+            //     {
+            //         bool hasDuplicate = elementList.GroupBy(x => x.name).Any(g => g.Count() > 1);
+            //         hasDuplicate |= interactionList.GroupBy(x => x.Name).Any(g => g.Count() > 1);
+            //         if (hasDuplicate)
+            //         {
+            //             _duplicateNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            //         }
+            //
+            //         // bool nameEmpty = elementList.Any(x => x.name == "");
+            //         bool nameEmpty = type.name == "";
+            //         if (nameEmpty)
+            //         {
+            //             _emptyNameReferenceTypeNames.Add(typeof(TElementType).Name);
+            //         }
+            //
+            //         if (!hasDuplicate && !nameEmpty)
+            //         {
+            //             UIEventHandle<TEventReturnType> handle = new UIEventHandle<TEventReturnType>(type.name,
+            //                 $"ChangeEvent<{typeof(TEventReturnType).GetGenericArguments()[0].Name}>");
+            //             interactionList.Add(handle);
+            //             type.RegisterValueChangedCallback(evt =>
+            //             {
+            //                 var result = interactionList.First(ele => ele.Name == type.name);
+            //                 result.InteractionEvent.Invoke((TEventReturnType) evt);
+            //             });
+            //         }
+            //     });
+
+            // List<UIEventHandle<TEventReturnType>> tempList = new();
+            // bool oldInteractionFound;
+            // for (int i = 0; i < interactionList.Count; i++)
+            // {
+            //     oldInteractionFound = false;
+            //     for (int j = 0; j < elementList.Count; j++)
+            //     {
+            //         if (elementList[i].name == interactionList[j].Name)
+            //         {
+            //             oldInteractionFound = true;
+            //         }
+            //     }
+            //     
+            // }
+            // var filteredList = elementList.RemoveAll(ele => interactionList.All(handle => handle.Name != ele.name));
+
+            return interactionList;
+            // return FilterObsoleteElements<TElementType, TEventReturnType>(interactionList,
+            //     new List<VisualElement>(elementList.ToList()));
         }
 
         private List<UIEventHandle<object>> LoadElements<TElementType>(VisualElement root,
