@@ -10,4 +10,14 @@ public class TestScript : MonoBehaviour
       VisualElement target = (VisualElement) evt.target;
       target.style.backgroundColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
    }
+
+   public void Method2()
+   {
+      Debug.Log("whoww");
+   }
+
+   public void QuitApplication()
+   {
+      Application.Quit();
+   }
 }

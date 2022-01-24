@@ -130,6 +130,12 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         {
             HookUnityEvents();
 
+            buttonInteractions.ForEach(eventHandle =>
+            {
+                _menuRoot.Query<Button>(eventHandle.Name).ForEach(ele =>
+                    ele.clicked += () => eventHandle.InteractionEvent.Invoke(null));
+            });            
+            
             toggleInteractions.ForEach(eventHandle =>
             {
                 _menuRoot.Query<Toggle>(eventHandle.Name).ForEach(ele =>

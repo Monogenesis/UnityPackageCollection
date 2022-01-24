@@ -1,3 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Toggle label="Toggle" name="123" />
+    <ui:Button text="Button" display-tooltip-when-elided="true" />
+    <ui:Button text="Quit" display-tooltip-when-elided="true" name="button" />
+    <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" text="filler text" name="textf" is-delayed="true" />
+    <ui:RadioButton label="Radio Button" name="rad" />
+    <ui:RadioButtonGroup label="Radio Button Group" value="-1" name="grou" />
 </ui:UXML>
