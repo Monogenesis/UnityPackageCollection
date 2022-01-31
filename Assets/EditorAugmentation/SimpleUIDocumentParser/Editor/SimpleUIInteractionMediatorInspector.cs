@@ -31,24 +31,28 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
             _missingEventReferenceTypeNames.Clear();
             serializedObject.Update();
             SimpleUIInteractionMediator myScript = (SimpleUIInteractionMediator) target;
+            
+            EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour((SimpleUIInteractionMediator) target),
                 typeof(SimpleUIInteractionMediator), false);
-
+            EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("menuUIDocument"));
-
             if (GUILayout.Button("REFRESH"))
             {
                 myScript.OnRefreshButtonPressed();
                 Debug.Log("Finished Parsing The UIDocument!");
             }
 
-            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<object>, object>(myScript.ButtonInteractions, ListNames[0]);
+            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<object>, object>(
+                myScript.ButtonInteractions, ListNames[0]);
 
-       CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>, ChangeEvent<string>>(
+            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>,
+                ChangeEvent<string>>(
                 myScript.DropdownInteractions, ListNames[1]);
 
-            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>, ChangeEvent<string>>(
+            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<string>>,
+                ChangeEvent<string>>(
                 myScript.TextFieldInteractions, ListNames[2]);
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<float>>, ChangeEvent<float>>(
@@ -57,7 +61,8 @@ namespace EditorAugmentation.SimpleUIDocumentParser.Editor
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<int>>, ChangeEvent<int>>(
                 myScript.INTSliderInteractions, ListNames[4]);
 
-            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<Vector2>>, ChangeEvent<Vector2>>(
+            CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<Vector2>>,
+                ChangeEvent<Vector2>>(
                 myScript.MinMaxSliderInteractions, ListNames[5]);
 
             CheckForMissingReference<SimpleUIInteractionMediator.UIEventHandle<ChangeEvent<bool>>, ChangeEvent<bool>>(

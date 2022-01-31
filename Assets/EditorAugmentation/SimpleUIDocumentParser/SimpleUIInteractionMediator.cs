@@ -343,7 +343,7 @@ namespace EditorAugmentation.SimpleUIDocumentParser
         {
             [SerializeField, ReadOnly] private string name;
 
-            [SerializeField, ReadOnly] private string eventParameterType;
+            [SerializeField, ReadOnly] private string parameterType;
 
             [SerializeField] private UnityEvent<T> interactionEvent;
 
@@ -360,10 +360,10 @@ namespace EditorAugmentation.SimpleUIDocumentParser
             }
 
 
-            public UIEventHandle(string name, string eventTypeName)
+            public UIEventHandle(string name, string typeName)
             {
                 this.name = name;
-                eventParameterType = eventTypeName;
+                parameterType = typeName;
                 interactionEvent = null;
             }
         }
