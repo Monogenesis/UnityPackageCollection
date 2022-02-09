@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 515407824}
   - component: {fileID: 515407823}
   - component: {fileID: 515407825}
-  - component: {fileID: 515407826}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -182,93 +181,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 515407821}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 290cd0cfca107354fb34a3756c923ace, type: 3}
+  m_Script: {fileID: 11500000, guid: 194d9097ceac8434ab52aa307c09143c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &515407826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 515407821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d16f35696a6c94439d085e7522b005e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuUIDocument: {fileID: 515407823}
-  buttonInteractions:
-  - name: button
-    eventParameterType: None
-    interactionEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 515407825}
-          m_TargetAssemblyTypeName: TestScript, Assembly-CSharp
-          m_MethodName: QuitApplication
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  dropdownInteractions: []
-  textFieldInteractions:
-  - name: textf
-    eventParameterType: ChangeEvent<String>
-    interactionEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 515407825}
-          m_TargetAssemblyTypeName: TestScript, Assembly-CSharp
-          m_MethodName: Method2
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  sliderInteractions: []
-  intSliderInteractions: []
-  minMaxSliderInteractions: []
-  radioButtonInteractions:
-  - name: rad
-    eventParameterType: ChangeEvent<Boolean>
-    interactionEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  radioButtonGroupInteractions:
-  - name: grou
-    eventParameterType: ChangeEvent<Int32>
-    interactionEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  toggleInteractions:
-  - name: 123
-    eventParameterType: ChangeEvent<Boolean>
-    interactionEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 515407825}
-          m_TargetAssemblyTypeName: TestScript, Assembly-CSharp
-          m_MethodName: Method1
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  foldoutInteractions: []
+  _uiDocument: {fileID: 515407823}
+  spriteSheets:
+  - {fileID: 2800000, guid: 9a3b14469e0a75945a047d0c96b1bb71, type: 3}
+  - {fileID: 2800000, guid: 24e26a59224c2c349a87ff97a40c7295, type: 3}
 --- !u!1 &911326488
 GameObject:
   m_ObjectHideFlags: 0
