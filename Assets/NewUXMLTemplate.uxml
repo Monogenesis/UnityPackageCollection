@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/test-style.uss?fileID=7433441132597879392&amp;guid=c67cd9acaa59e2341b2b3d841cfe30c0&amp;type=3#test-style" />
     <ui:Button text="Button" display-tooltip-when-elided="true" name="button" />
-    <PortraitFramePresenter style="width: 500px; height: 500px; background-color: rgb(156, 156, 156); -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+    <PortraitFramePresenter endlessLoop="false" only-animate-when-frame-rests="false" class="frame-presenter" />
 </ui:UXML>

@@ -1,18 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PortraitFrameController : MonoBehaviour
 {
     [SerializeField] private UIDocument _uiDocument;
-    [SerializeField] private List<Texture2D> spriteSheets;
     [SerializeField] private int levelsPerSpriteSheet = 16;
+    [SerializeField] private float rotationSpeed = 0.25f;
+    [SerializeField] private int testLevel = 30;
+    [SerializeField] private List<Texture2D> spriteSheets;
+    
     private List<Sprite> _sprites = new();
-    public const float RotationSpeed = 0.25f;
 
+
+    public float RotationSpeed => rotationSpeed;
 
     private void Awake()
     {
@@ -23,8 +24,7 @@ public class PortraitFrameController : MonoBehaviour
 
         _uiDocument.rootVisualElement.Query<PortraitFramePresenter>().ForEach(frame =>
         {
-            frame.PortraitController = this;
-            frame.CurrentLevel = 999;
+            frame.CreatePortrait(GetFrameSprites(testLevel), rotationSpeed);
         });
 
 
@@ -35,7 +35,7 @@ public class PortraitFrameController : MonoBehaviour
         List<Sprite> result = new();
         level = Mathf.Clamp(level, 1, levelsPerSpriteSheet * spriteSheets.Count);
         int levelIndex = level - 1;
-        int spriteSheetIndex = Mathf.FloorToInt(levelIndex / levelsPerSpriteSheet);
+        int spriteSheetIndex = Mathf.FloorToInt(levelIndex / (float)levelsPerSpriteSheet);
 
         for (int i = 0; i < spriteSheetIndex; i++)
         {

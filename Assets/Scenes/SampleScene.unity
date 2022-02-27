@@ -185,9 +185,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiDocument: {fileID: 515407823}
+  levelsPerSpriteSheet: 16
+  rotationSpeed: 10
+  testLevel: 9999
   spriteSheets:
-  - {fileID: 2800000, guid: 9a3b14469e0a75945a047d0c96b1bb71, type: 3}
-  - {fileID: 2800000, guid: 24e26a59224c2c349a87ff97a40c7295, type: 3}
+  - {fileID: 2800000, guid: e902efcd5fa947c4e91306f22aa9fe76, type: 3}
+  - {fileID: 2800000, guid: 6fae535ed2e6e3441839414db5131424, type: 3}
+  - {fileID: 2800000, guid: 1e268396ac7ed97468b66d6edb183690, type: 3}
+  - {fileID: 2800000, guid: fb348eb17060b5b4b80c793541ddeb20, type: 3}
+  - {fileID: 2800000, guid: 19ea12b1851914f47a495085e49c94cf, type: 3}
+  - {fileID: 2800000, guid: 6397571c7770dd34fb05ef800f563f4d, type: 3}
+  - {fileID: 2800000, guid: 7102098a794cb3b4aa6bdff9e25f1b9a, type: 3}
+  - {fileID: 2800000, guid: a0cb507a4fe60c947892f1e57ec26611, type: 3}
+  - {fileID: 2800000, guid: b13c6c19a0225bf4fa7adbdc19882d9b, type: 3}
+  - {fileID: 2800000, guid: 214f2089ff7c4f444b8928e187835d56, type: 3}
 --- !u!1 &911326488
 GameObject:
   m_ObjectHideFlags: 0
